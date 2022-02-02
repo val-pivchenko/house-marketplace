@@ -8,7 +8,6 @@ import { db } from '../firebase.config'
 import { v4 as uuidv4 } from 'uuid'
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
-
 const CreateListing = () => {
     // eslint-disable-next-line
     const [geolocationEnabled, setGeolocationEnabled] = useState(true)
@@ -61,17 +60,17 @@ const CreateListing = () => {
 
         if (geolocationEnabled) {
             const response = await fetch(
-                `http://api.positionstack.com/v1/forward?access_key=f439b548d6f8ff84560370daac645e33&query=${address}`
+                `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_API_KEY}&q=${address}&format=json`
             );
 
             const data = await response.json()
 
-            geolocation.lat = data.data[0]?.latitude ?? 0
-            geolocation.lng = data.data[0]?.longitude ?? 0
+            geolocation.lat = data[0]?.lat ?? 0
+            geolocation.lng = data[0]?.lon ?? 0
 
             location =
-                data.data[0]
-                    ? data.data[0]?.label
+                data[0]
+                    ? data[0]?.display_name
                     : undefined
 
             if (location === undefined || location.includes('undefined')) {

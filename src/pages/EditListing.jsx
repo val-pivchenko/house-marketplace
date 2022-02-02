@@ -110,7 +110,7 @@ const EditListing = () => {
 
         if (geolocationEnabled) {
             const response = await fetch(
-                `http://api.positionstack.com/v1/forward?access_key=f439b548d6f8ff84560370daac645e33&query=${address}`
+                `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_API_KEY}&q=${address}&format=json`
             );
 
             const data = await response.json()
